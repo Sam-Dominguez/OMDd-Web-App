@@ -9,7 +9,7 @@ import { SearchResult } from './search-result';
 export class MovieService {
 
   private APIKEY = "a3b413a3"
-  private apiUrl = 'http://www.omdbapi.com/?apikey=' + this.APIKEY + "&"
+  private apiUrl = 'https://www.omdbapi.com/?apikey=' + this.APIKEY + "&"
 
   constructor(
     private http: HttpClient,
