@@ -1,0 +1,57 @@
+<h2>Movie Search</h2>
+<form novalidate #inputForm="ngForm">
+    <div>
+      <mat-form-field>
+        <input
+          matInput
+          placeholder=""
+          name="Query"
+          id="query"
+          [(ngModel)]="query"
+        />
+      </mat-form-field>
+    <button
+      mat-stroked-button
+      color="warn"
+      (click)="getMovies(query)"
+    >
+      Search
+    </button>
+    </div>
+</form>
+<div *ngIf="loading && !details">
+    <p>Loading movies...</p>
+</div>
+<div *ngIf="loading && details">
+    <p>Loading movie...</p>
+</div>
+<div *ngIf="!details && !loading ">
+    <ul class='movies'>
+        <li *ngFor="let movie of movies"
+        (click)="onSelect(movie)">
+        <div class="card">
+            <span>{{ movie.Title }} ({{ movie.Year }})</span> 
+            <div><img src="{{movie.Poster}}" alt="Movie Poster" height="200" width="200"></div>
+        </div>
+        <br>
+        </li>
+    </ul>
+</div>
+<div *ngIf="selectedMovie && details && !loading">
+    <button type="button" class="btn btn-primary" (click)="back()">
+        Back
+    </button>
+    <h2>{{ selectedMovie.Title }} Details</h2>
+    <div><span>Title: </span>{{selectedMovie.Title}}</div>
+    <div><span>Released: </span>{{selectedMovie.Year}}</div>
+    <div><span>Director: </span>{{selectedMovie.Director}}</div>
+    <div><span>Box Office: </span>{{selectedMovie.BoxOffice}}</div>
+    <div><span>IMDB Rating: </span>{{selectedMovie.imdbRating}}</div>
+    <div><span>Plot: </span>{{selectedMovie.Plot}}</div>
+    <div><span>Actors: </span>{{selectedMovie.Actors}}</div>
+    <div><span>Awards: </span>{{selectedMovie.Awards}}</div>
+    <div><img src="{{selectedMovie.Poster}}" alt="Movie Poster" height="200" width="200"></div>
+</div>
+
+
+
