@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
 import { Movie } from "../movie";
-import { Result } from '../search-result';
+import { Result, SearchResult } from '../search-result';
 import { MovieService } from "../movie.service";
-import { FormControl, Validators, NgForm } from '@angular/forms';
-import {MatFormFieldModule} from '@angular/material/form-field';
+import {MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-movies',
@@ -11,19 +10,20 @@ import {MatFormFieldModule} from '@angular/material/form-field';
   styleUrls: ['./movies.component.css']
 })
 export class MoviesComponent implements OnInit {  
+  result: SearchResult = {};
+  pageNumber: number = 1;
+  totalPages: number = 0;
+  totalResults: number = 0;
   movies: Result[] = [];
   selectedMovie? : Movie;
   details = false;
   loading = false;
-  query : string = "";
+  query: string = "";
 
   constructor(private movieService: MovieService) {
   }
 
   ngOnInit() {
-    this.loading = true;
-    this.getMovies("");
-    this.loading = false;
   }
 
   async onSelect(movie: Result){
@@ -34,26 +34,30 @@ export class MoviesComponent implements OnInit {
     this.loading = false;
   }
 
-//   async generateThumbnail(url: string){
-//     const imageThumbnail = require('image-thumbnail');
-
-//     try {
-//       const thumbnail = await imageThumbnail({uri: url});
-//       console.log(thumbnail);
-//     } catch (err) {
-//       console.error(err);
-// }
-//   }
-
   back(){
     this.details = false;
   }
 
-  async getMovies(query: string) {
+  async getMovies() {
     this.loading = true;
     this.details = false;
-    var result = await this.movieService.getMovies(query);
-    this.movies = result.Search || this.movies;
+    this.result = await this.movieService.getMovies(this.query);
+    this.totalResults = parseInt(this.result.totalResults || '0');
+    this.totalPages = Math.round(this.totalResults / 10);
+    console.log(this.totalResults);
+    console.log(this.totalPages);
+    this.pageNumber = 1;
+    this.movies = this.result.Search || this.movies;
+    this.loading = false;
+  }
+
+  async getMoviesByPage(page: number){
+    this.loading = true;
+    this.details = false;
+    this.pageNumber = page;
+    this.result = await this.movieService.getMoviesByPage(this.query, page);
+    this.movies = this.result.Search || this.movies;
+    console.log(this.pageNumber);
     this.loading = false;
   }
 }

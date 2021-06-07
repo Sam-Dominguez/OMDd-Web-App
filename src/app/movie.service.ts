@@ -22,9 +22,15 @@ export class MovieService {
     ).toPromise()
   }
 
-  async getMovieById(id : string) : Promise<Movie>{
+  async getMovieById(id : string): Promise<Movie>{
     return await this.http.get<Movie>(
       this.apiUrl + "i=" + id
+    ).toPromise()
+  }
+
+  async getMoviesByPage(query: string, page : number): Promise<SearchResult>{
+    return await this.http.get<SearchResult>(
+      this.apiUrl + "s=" + query + "&page=" + page
     ).toPromise()
   }
 

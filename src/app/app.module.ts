@@ -5,18 +5,19 @@ import { HttpClientModule } from '@angular/common/http';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import { MatInputModule } from '@angular/material/input';
 import { BrowserAnimationsModule } from "@angular/platform-browser/animations";
+import {MatPaginatorModule} from '@angular/material/paginator';
+
+import { NgbModule } from "@ng-bootstrap/ng-bootstrap";
 
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { MoviesComponent } from './movies/movies.component';
-import { HeaderComponent } from './header/header.component';
 
 @NgModule({
   declarations: [
     AppComponent,
-    MoviesComponent,
-    HeaderComponent,
+    MoviesComponent
   ],
   imports: [
     BrowserModule,
@@ -25,7 +26,9 @@ import { HeaderComponent } from './header/header.component';
     HttpClientModule,
     MatFormFieldModule,
     MatInputModule,
-    BrowserAnimationsModule
+    BrowserAnimationsModule,
+    MatPaginatorModule,
+    NgbModule
   ],
   providers: [],
   bootstrap: [AppComponent]
