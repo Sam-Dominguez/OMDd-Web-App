@@ -16,6 +16,9 @@
     <div *ngIf="!loading && movies.length == 0">
         <p>Enter a movie to search!</p>
     </div>
+    <div *ngIf="!loading && totalResults == 0">
+        <p>No movies found.</p>
+    </div>
     <div *ngIf="!details && !loading">
         <ul class='movies'>
             <li *ngFor="let movie of movies" (click)="onSelect(movie)">

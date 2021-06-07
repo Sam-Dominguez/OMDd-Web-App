@@ -2,7 +2,6 @@ import { Component, OnInit } from '@angular/core';
 import { Movie } from "../movie";
 import { Result, SearchResult } from '../search-result';
 import { MovieService } from "../movie.service";
-import {MatPaginatorModule} from '@angular/material/paginator';
 
 @Component({
   selector: 'app-movies',
@@ -12,8 +11,8 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 export class MoviesComponent implements OnInit {  
   result: SearchResult = {};
   pageNumber: number = 1;
-  totalPages: number = 0;
-  totalResults: number = 0;
+  totalPages: number = 1;
+  totalResults: number = 1;
   movies: Result[] = [];
   selectedMovie? : Movie;
   details = false;
@@ -44,10 +43,11 @@ export class MoviesComponent implements OnInit {
     this.result = await this.movieService.getMovies(this.query);
     this.totalResults = parseInt(this.result.totalResults || '0');
     this.totalPages = Math.round(this.totalResults / 10);
-    console.log(this.totalResults);
-    console.log(this.totalPages);
+    if(this.totalPages == 0 && this.totalResults > 0){
+      this.totalPages = 1;
+    }
     this.pageNumber = 1;
-    this.movies = this.result.Search || this.movies;
+    this.movies = this.result.Search || [];
     this.loading = false;
   }
 
