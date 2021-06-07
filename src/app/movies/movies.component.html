@@ -23,7 +23,7 @@
         <ul class='movies'>
             <li *ngFor="let movie of movies" (click)="onSelect(movie)">
                 <div class="card">
-                    <span>{{ movie.Title }} ({{ movie.Year }})</span>
+                    <h3><span>{{ movie.Title }} ({{ movie.Year }})</span></h3>
                     <div *ngIf="movie.Poster != 'N/A'; else notFound"><img src="{{movie.Poster}}" alt="Movie Poster" height="200" width="200"></div>
                     <ng-template #notFound><p>No poster found.</p></ng-template>
                 </div>
@@ -54,25 +54,31 @@
     </div>
     <div *ngIf="selectedMovie && details && !loading">
         <div class="card">
-            <h2>{{ selectedMovie.Title }}:</h2>
-            <div><span>Released: </span>{{selectedMovie.Year}}</div>
-            <div><span>Director: </span>{{selectedMovie.Director}}</div>
-            <div><span>Box Office: </span>{{selectedMovie.BoxOffice}}</div>
-            <div><span>IMDB Rating: </span>{{selectedMovie.imdbRating}}</div>
-            <div><span>Plot: </span>{{selectedMovie.Plot}}</div>
-            <div><span>Actors: </span>{{selectedMovie.Actors}}</div>
-            <div><span>Awards: </span>{{selectedMovie.Awards}}</div>
-            <div><span>Ratings: </span></div>
-            <ul class='Ratings'>
-                <li *ngFor="let rating of selectedMovie.Ratings">
-                    <div class="rating">
-                        <span>{{ rating.Source }} ({{ rating.Value }})</span>
-                    </div>
-                </li>
-            </ul>
-            <div *ngIf="selectedMovie.Poster != 'N/A'; else notFound"><img src="{{selectedMovie.Poster}}" alt="Movie Poster" height="200" width="200"></div>
-            <ng-template #notFound><p>No poster found.</p></ng-template>
+            <div class="row">
+                <div class="col">
+                    <h2>{{ selectedMovie.Title }} ({{ selectedMovie.Year }}):</h2>            
+                    <div><strong>Director: </strong>{{selectedMovie.Director}}</div>
+                    <div><strong>Box Office: </strong>{{selectedMovie.BoxOffice}}</div>
+                    <div><strong>IMDB Rating: </strong>{{selectedMovie.imdbRating}}</div>
+                    <div><strong>Plot: </strong>{{selectedMovie.Plot}}</div>
+                    <div><strong>Actors: </strong>{{selectedMovie.Actors}}</div>
+                    <div><strong>Awards: </strong>{{selectedMovie.Awards}}</div>
+                    <div><strong>Ratings: </strong></div>
+                    <ul class='Ratings'>
+                        <li *ngFor="let rating of selectedMovie.Ratings">
+                            <div class="rating">
+                                <span>&emsp;{{ rating.Source }} ({{ rating.Value }})</span>
+                            </div>
+                        </li>
+                    </ul>
+                </div>
+                <div class="col">
+                    <div *ngIf="selectedMovie.Poster != 'N/A'; else notFound"><img src="{{selectedMovie.Poster}}" alt="Movie Poster" height="400" width="270"></div>
+                    <ng-template #notFound><p>No poster found.</p></ng-template>
+                </div>
+            </div>
         </div>
+        <br>
         <button type="button" class="btn btn-light" (click)="back()">
             Back
         </button>

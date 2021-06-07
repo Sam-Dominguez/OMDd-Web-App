@@ -57,7 +57,6 @@ export class MoviesComponent implements OnInit {
     this.pageNumber = page;
     this.result = await this.movieService.getMoviesByPage(this.query, page);
     this.movies = this.result.Search || this.movies;
-    console.log(this.pageNumber);
     this.loading = false;
   }
 }
