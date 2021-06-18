@@ -9,6 +9,8 @@ import { MovieService } from "../movie.service";
   styleUrls: ['./movies.component.css']
 })
 export class MoviesComponent implements OnInit {  
+
+  // variable delcaration and initialization
   result: SearchResult = {};
   pageNumber: number = 1;
   totalPages: number = 1;
@@ -23,8 +25,10 @@ export class MoviesComponent implements OnInit {
   }
 
   ngOnInit() {
+
   }
 
+  // when a movie is selected among results, make OMDb api call for movie details
   async onSelect(movie: Result){
     const movieId = movie.imdbID || "";
     this.details = true;
@@ -33,24 +37,27 @@ export class MoviesComponent implements OnInit {
     this.loading = false;
   }
 
+  // return to search results page
   back(){
     this.details = false;
   }
 
+  // general query search OMDb api call and logic for page numbers
   async getMovies() {
     this.loading = true;
     this.details = false;
     this.result = await this.movieService.getMovies(this.query);
+    this.movies = this.result.Search || [];
     this.totalResults = parseInt(this.result.totalResults || '0');
     this.totalPages = Math.round(this.totalResults / 10);
     if(this.totalPages == 0 && this.totalResults > 0){
       this.totalPages = 1;
     }
     this.pageNumber = 1;
-    this.movies = this.result.Search || [];
     this.loading = false;
   }
 
+  // when page changes, make OMDb api call for page contents
   async getMoviesByPage(page: number){
     this.loading = true;
     this.details = false;

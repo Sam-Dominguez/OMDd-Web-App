@@ -1,12 +1,21 @@
 <div class="container">
     <h2>Movie Search</h2>
-    <form novalidate #inputForm="ngForm">
-        <div class="input-group mb-3">
-            <input matInput name="Query" id="query" [(ngModel)]="query" type="text" class="form-control"
-                placeholder="Movie Title" aria-describedby="basic-addon2">
-            <span class="input-group-text" id="basic-addon2" (click)="getMovies()">Search</span>
+
+    <!-- Search Query Input Form -->
+    <form>
+        <div class="row">
+            <div class="col-md-11">
+                <input matInput name="Query" id="query" [(ngModel)]="query" type="text" class="form-control"
+                    placeholder="Movie Title" aria-describedby="basic-addon2">
+            </div>
+            <div class="col-md-1">
+                <span class="input-group-text" id="basic-addon2" (click)="getMovies()">Search</span>
+            </div>
         </div>
+        <br>
     </form>
+
+    <!-- Misc Loading Screens and Placeholders -->
     <div *ngIf="loading && !details">
         <p>Loading movies...</p>
     </div>
@@ -19,17 +28,24 @@
     <div *ngIf="!loading && totalResults == 0">
         <p>No movies found.</p>
     </div>
+
+    <!-- Each movie in the list of results; display movie name, year, and poster. -->
     <div *ngIf="!details && !loading">
         <ul class='movies'>
             <li *ngFor="let movie of movies" (click)="onSelect(movie)">
                 <div class="card">
                     <h3><span>{{ movie.Title }} ({{ movie.Year }})</span></h3>
-                    <div *ngIf="movie.Poster != 'N/A'; else notFound"><img src="{{movie.Poster}}" alt="Movie Poster" height="200" width="200"></div>
-                    <ng-template #notFound><p>No poster found.</p></ng-template>
+                    <div *ngIf="movie.Poster != 'N/A'; else notFound"><img src="{{movie.Poster}}" alt="Movie Poster"
+                            height="200" width="200"></div>
+                    <ng-template #notFound>
+                        <p>No poster found.</p>
+                    </ng-template>
                 </div>
                 <br>
             </li>
         </ul>
+
+        <!-- Pagination -->
         <nav *ngIf="!loading && movies.length != 0" aria-label="Page navigation">
             <ul class="pagination justify-content-center">
                 <div *ngIf="pageNumber == 1; else previousEnabled" class="page-item disabled">
@@ -40,7 +56,7 @@
                     <li class="page-item"><a class="page-link" (click)="getMoviesByPage(pageNumber - 1)">Previous</a>
                     </li>
                 </ng-template>
-                <h3>Page {{ pageNumber }} / {{ totalPages }}</h3>
+                <h3>&emsp;Page {{ pageNumber }} / {{ totalPages }}&emsp;</h3>
                 <div *ngIf="(pageNumber + 1) > totalPages; else nextEnabled" class="page-item disabled">
                     <li class="page-item"><a class="page-link" (click)="getMoviesByPage(pageNumber + 1)">Next</a>
                     </li>
@@ -51,20 +67,33 @@
                 </ng-template>
             </ul>
         </nav>
+
     </div>
+    <!-- Page to display when viewing a single movie from a list of results -->
     <div *ngIf="selectedMovie && details && !loading">
         <div class="card">
+            <!-- Movie Details Page with Movie Info and Poster (if available) -->
             <div class="row">
                 <div class="col">
-                    <h2>{{ selectedMovie.Title }} ({{ selectedMovie.Year }}):</h2>            
+                    <h2>{{ selectedMovie.Title }} ({{selectedMovie.Year}}):</h2>
+                    <div *ngIf="selectedMovie.Plot != 'N/A'; else plotNotFound">
+                        <p>{{selectedMovie.Plot}}</p>
+                    </div>
+                    <ng-template #plotNotFound>
+                        <p>No plot available.</p>
+                    </ng-template>
                     <div><strong>Director: </strong>{{selectedMovie.Director}}</div>
-                    <div><strong>Box Office: </strong>{{selectedMovie.BoxOffice}}</div>
-                    <div><strong>IMDB Rating: </strong>{{selectedMovie.imdbRating}}</div>
-                    <div><strong>Plot: </strong>{{selectedMovie.Plot}}</div>
+                    <div><strong>Genre: </strong>{{selectedMovie.Genre}}</div>
+                    <div><strong>Date Released: </strong>{{selectedMovie.Released}}</div>
                     <div><strong>Actors: </strong>{{selectedMovie.Actors}}</div>
+                    <div><strong>Box Office: </strong>{{selectedMovie.BoxOffice}}</div>
+                    <div><strong>Runtime: </strong>{{selectedMovie.Runtime}}</div>
                     <div><strong>Awards: </strong>{{selectedMovie.Awards}}</div>
                     <div><strong>Ratings: </strong></div>
                     <ul class='Ratings'>
+                        <li>
+                            <div>&emsp;IMDB Rating: ({{selectedMovie.imdbRating}})</div>
+                        </li>
                         <li *ngFor="let rating of selectedMovie.Ratings">
                             <div class="rating">
                                 <span>&emsp;{{ rating.Source }} ({{ rating.Value }})</span>
@@ -73,8 +102,11 @@
                     </ul>
                 </div>
                 <div class="col">
-                    <div *ngIf="selectedMovie.Poster != 'N/A'; else notFound"><img src="{{selectedMovie.Poster}}" alt="Movie Poster" height="400" width="270"></div>
-                    <ng-template #notFound><p>No poster found.</p></ng-template>
+                    <div *ngIf="selectedMovie.Poster != 'N/A'; else notFound"><img src="{{selectedMovie.Poster}}"
+                            alt="Movie Poster" height="400" width="270"></div>
+                    <ng-template #notFound>
+                        <p>No poster found.</p>
+                    </ng-template>
                 </div>
             </div>
         </div>

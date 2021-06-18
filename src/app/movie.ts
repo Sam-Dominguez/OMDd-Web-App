@@ -1,3 +1,4 @@
+// interface of a detailed movie returned by OMDb API
 export interface Movie {
     Title:      string;
     Year?:       string;
