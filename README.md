@@ -1,5 +1,7 @@
 # OMDbMovieWebApp
 
+Samuel Dominguez Capital One Software Engineering Summit Challenge Submission (August 2021)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 12.0.2.
 
 Used Angular and Bootstrap  
